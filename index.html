@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>App</title>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="">
+<link rel="shortcut icon" href="">
+</head>
+<body>
+  <div>
+    <h1>Sample App</h1>
+    <p>This is Sample App</p>
+    <form>
+      <input type="text" />
+    </form>
+  </div>
+  <script>
+    const remote = require('electron').remote;
+    const Menu = remote.Menu;
+    const MenuItem = remote.MenuItem;
+
+    var menu = new Menu();
+    menu.append(new MenuItem({
+      label: 'メニューテスト',
+      accelerator: 'CmdOrCtrl+1',
+      click: function() {
+        alert('メニューテスト');
+      }
+    }));
+    menu.append(new MenuItem({
+       label: 'サブメニュー一覧',
+       submenu: [
+         {
+           label: 'サブメニュー1'
+         },
+         {
+           label: 'サブメニュー2'
+         }
+       ]
+    }));
+    menu.append(new MenuItem({
+       label: 'disabled',
+       enabled: false,
+       click: function(e) {
+         console.log(e.checked);
+         console.log(e);
+       }
+    }));
+    menu.append(new MenuItem({
+       label: 'チェックボックス',
+       type: 'checkbox',
+       sublabel: 'サブ',
+       enabled: true,
+       checked: true,
+       click: function(e) {
+         console.log(e.checked);
+       }
+    }));
+    menu.append(new MenuItem({
+       type: 'separator',
+    }));
+    menu.append(new MenuItem({
+       label: 'radio-OK',
+       type: 'radio',
+       click: function(e) {
+         console.log(e.checked)
+       }
+    }));
+    menu.append(new MenuItem({
+       label: 'radio-NG',
+       type: 'radio',
+       click: function(e) {
+         console.log(e.checked)
+       }
+    }));
+    menu.append(new MenuItem({
+       type: 'separator',
+    }));
+    menu.append(new MenuItem({
+       label: 'radio',
+       submenu: [
+         {
+           label: 'OK',
+           type: 'radio',
+           click: function(e) {
+             console.log(e.checked)
+           }
+         },{
+           label: 'NG',
+           type: 'radio',
+           click: function(e) {
+             console.log(e.checked)
+           }
+         }
+       ],
+    }));
+    menu.append(new MenuItem({
+       type: 'separator',
+    }));
+    menu.append(new MenuItem({
+       label: 'コピー',
+       accelerator: 'CmdOrCtrl+C',
+       role: 'copy'
+    }));
+    menu.append(new MenuItem({
+       label: '貼り付け',
+       accelerator: 'CmdOrCtrl+V',
+       role: 'paste'
+    }));
+    menu.append(new MenuItem({
+       label: 'メニュー追加',
+       click: function(e) {
+         var newMenu = new MenuItem({
+           label: '追加されたメニュー'
+         });
+         menu.insert(1, newMenu);
+       }
+    }));
+
+    window.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+      menu.popup(remote.getCurrentWindow());
+    }, false);
+  </script>
+</body>
+</html>
